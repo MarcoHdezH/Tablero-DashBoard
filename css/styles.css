@@ -134,3 +134,41 @@ p.precio{
         transform: scale(1.0);
     }
 }
+
+.footer{
+    padding: 3rem;
+    text-align: center;
+    color: white;
+    grid-template-rows: repeat(1,1fr);
+    row-gap: 1rem;
+    padding: 2rem;
+}
+
+.footer h6{
+    font-size: 3rem;
+}
+
+.footer p{
+    font-size: 1.5rem;
+}
+
+.footer__header{
+    text-align: center;
+}
+
+.footer__final{
+    padding: 1rem;
+}
+
+.footer__final p{
+    text-align: center;
+}
+
+.footer__final a{
+    text-decoration: none;
+}
+
+.footer__header,
+.footer__final{
+    text-align: center;
+}

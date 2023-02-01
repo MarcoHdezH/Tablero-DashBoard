@@ -25,7 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
 // Consulta la API par aobtener un listado de Criptomonedas
 async function consultarCriptomonedas() {
 
-    const url = 'https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=USD';
+    //limit=5; Numero de CrytoMonedas Disponibles
+
+    const url = 'https://min-api.cryptocompare.com/data/top/mktcapfull?limit=5&tsym=USD';
     // NUEVO: 
     try {
         const respuesta = await fetch(url);
