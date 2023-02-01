@@ -43,6 +43,16 @@ input[type="submit"]{
     text-align: center;
 }
 
+.container h4{
+    text-align: center;
+    color: white;
+    text-transform: uppercase;
+}
+
+.container a{
+    text-decoration: none;
+}
+
 .contenedor{
     padding: 3rem;
 }
