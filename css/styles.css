@@ -15,7 +15,7 @@ h1 {
 }
 h1::after {
     content: '';
-    width: 100px;
+    width: auto;
     height:6px;
     background-color: #66a2fe;
     display: block;
@@ -37,6 +37,14 @@ input[type="submit"]{
     font-size: 20px;
     padding: 10px;
     height: auto;
+}
+
+.header h1{
+    text-align: center;
+}
+
+.contenedor{
+    padding: 3rem;
 }
 .error {
     background-color: #b7322c;
