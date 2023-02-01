@@ -88,7 +88,6 @@ function mostrarAlerta(mensaje) {
 }
 
 //Consultar API
-
 function consultarAPI() {
     const { moneda, criptomoneda} = objBusqueda;
 
