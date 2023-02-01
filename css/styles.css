@@ -1,5 +1,5 @@
 body {
-    background-color: #0d2235;
+    background-color: #03101b;
 }
 img {
     max-width: 100%;
@@ -17,7 +17,7 @@ h1::after {
     content: '';
     width: auto;
     height:6px;
-    background-color: #66a2fe;
+    background-color: #085bd7;
     display: block;
 }
 .container img {

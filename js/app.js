@@ -44,3 +44,34 @@ function selectCriptomonedas(criptomonedas) {
         criptomonedasSelect.appendChild(option);
     });
 }
+
+function leerValor(e)  {
+    objBusqueda[e.target.name] = e.target.value;
+}
+
+//Consulta el Api o manda mensaje en caso de campos vacios
+function submitFormulario(e) {
+    e.preventDefault();
+    // Extraer los valores
+    const { moneda, criptomoneda} = objBusqueda;
+    if(moneda === '' || criptomoneda === '') {
+        mostrarAlerta('Ambos campos son obligatorios');
+        return;
+    }
+    consultarAPI();
+}
+
+//Muestra la alerta en el HTML
+function mostrarAlerta(mensaje) {
+    // Crea el div
+    const divMensaje = document.createElement('div');
+    divMensaje.classList.add('error');
+    // Mensaje de error
+    divMensaje.textContent = mensaje;
+    // Insertar en el DOM
+   formulario.appendChild(divMensaje);
+    // Quitar el alert despues de 1 segundo
+    setTimeout( () => {
+        divMensaje.remove();
+    }, 1000);
+}
