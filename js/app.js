@@ -23,14 +23,23 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Consulta la API par aobtener un listado de Criptomonedas
-function consultarCriptomonedas() {
-    // Ir  AtoPLISTS Y Despues market capp 
+async function consultarCriptomonedas() {
+
     const url = 'https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=USD';
-    fetch(url)
-        .then( respuesta => respuesta.json()) // Consulta exitosa...
-        .then( resultado => obtenerCriptomonedas(resultado.Data)) // 
-        .then( criptomonedas  =>  selectCriptomonedas(criptomonedas) )
-        .catch( error => console.log(error));
+    // NUEVO: 
+    try {
+        const respuesta = await fetch(url);
+        const resultado = await respuesta.json();
+        const criptomonedas = await obtenerCriptomonedas(resultado.Data);
+        selectCriptomonedas(criptomonedas);
+    } catch (error) {
+        console.log(error);
+    }
+    // fetch(url)
+    //     .then( respuesta => respuesta.json()) // Consulta exitosa...
+    //     .then( resultado => obtenerCriptomonedas(resultado.Data)) // 
+    //     .then( criptomonedas  =>  selectCriptomonedas(criptomonedas) )
+    //     .catch( error => console.log(error));
 }
 
 // llena el select 
