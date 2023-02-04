@@ -141,8 +141,8 @@ p.precio{
 }
 
 .canvas canvas{
-    width: 10rem;
-    height: 12rem;
+    width: 3rem;
+    height: 3rem;
 }
 
 @media (min-width: 768px) {

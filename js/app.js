@@ -88,11 +88,13 @@ function mostrarAlerta(mensaje) {
     }, 1000);
 }
 
+let Moneda;
 //Consultar API
 function consultarAPI() {
     const { moneda, criptomoneda } = objBusqueda;
 
     const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${criptomoneda}&tsyms=${moneda}`;
+    Moneda=moneda;
 
     mostrarSpinner();
 
@@ -106,10 +108,10 @@ function consultarAPI() {
 //Muestra la Consulta en el HTML
 function mostrarCotizacionHTML(cotizacion) {
     limpiarHTML();
-    console.log(cotizacion);
+    //console.log(cotizacion);
     const { PRICE, HIGHDAY, LOWDAY, CHANGEPCT24HOUR, LASTUPDATE } = cotizacion;
 
-    let lowP=LOWDAY;
+    /*let lowP=LOWDAY;
     let highP=HIGHDAY;
 
     array1=[];
@@ -126,7 +128,15 @@ function mostrarCotizacionHTML(cotizacion) {
     array1=null;
     array1=highP.split(",");
     highP=array1[0]+array1[1];
-    highP=parseFloat(highP);
+    highP=parseFloat(highP);*/
+
+    fetch(`https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH,USDT,BNB,USDC&tsyms=${Moneda}`)
+    // Exito
+    .then(response => response.json())
+    .then(comparativa => {
+        mostrarGrafica(comparativa);
+    });
+
 
     const precio = document.createElement('p');
 
@@ -162,7 +172,7 @@ function mostrarCotizacionHTML(cotizacion) {
 
     formulario.appendChild(resultado);
 
-    mostrarGrafica(lowP,highP);
+    //mostrarGrafica(lowP,highP);}
 }
 
 //Muestra la Animacion de Carga
@@ -191,7 +201,7 @@ function limpiarHTML() {
     }
 }
 
-function mostrarGrafica(lowP,highP) {
+/*function mostrarGrafica(lowP,highP) {
     const $grafica = document.querySelector("#Grafica");
     // Las etiquetas son las que van en el eje X. 
     const etiquetas = ["Precio Más Bajo", "Precio Más Alto"]
@@ -199,6 +209,95 @@ function mostrarGrafica(lowP,highP) {
     const datosVentas2020 = {
         label: "Cotización por Dia",
         data: [lowP,highP], // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
+        backgroundColor: 'rgba(54, 162, 235, 0.2)', // Color de fondo
+        borderColor: 'rgba(54, 162, 235, 1)', // Color del borde
+        borderWidth: 1,// Ancho del borde
+    };
+    new Chart($grafica, {
+        type: 'bar',// Tipo de gráfica
+        data: {
+            labels: etiquetas,
+            backgroundColor:'white',
+            datasets: [
+                datosVentas2020,
+                // Aquí más datos...
+            ]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }],
+            },
+        }
+    });
+}*/
+
+function mostrarGrafica(comparativa) {
+    console.log(typeof comparativa);
+
+    const{BNB,BTC,ETH,USDC,USDT}=comparativa;
+    let C1,C2,C3,C4,C5;
+
+    console.log(comparativa);
+    if(Moneda=='USD'){
+        C1 = BNB.USD;
+        C2 = BTC.USD;
+        C3 = ETH.USD;
+        C4 = USDC.USD;
+        C5 = USDT.USD;
+    }
+    if(Moneda=='MXN'){
+        C1 = BNB.MXN;
+        C2 = BTC.MXN;
+        C3 = ETH.MXN;
+        C4 = USDC.MXN;
+        C5 = USDT.MXN;
+    }
+    if(Moneda=='COP'){
+        C1 = BNB.COP;
+        C2 = BTC.COP;
+        C3 = ETH.COP;
+        C4 = USDC.COP;
+        C5 = USDT.COP;
+    }
+    if(Moneda=='JPY'){
+        C1 = BNB.JPY;
+        C2 = BTC.JPY;
+        C3 = ETH.JPY;
+        C4 = USDC.JPY;
+        C5 = USDT.JPY;
+    }
+    if(Moneda=='VES'){
+        C1 = BNB.VES;
+        C2 = BTC.VES;
+        C3 = ETH.VES;
+        C4 = USDC.VES;
+        C5 = USDT.VES;
+    }
+    if(Moneda=='EUR'){
+        C1 = BNB.EUR;
+        C2 = BTC.EUR;
+        C3 = ETH.EUR;
+        C4 = USDC.EUR;
+        C5 = USDT.EUR;
+    }
+    if(Moneda=='GPB'){
+        C1 = BNB.GPB;
+        C2 = BTC.GPB;
+        C3 = ETH.GPB;
+        C4 = USDC.GPB;
+        C5 = USDT.GPB;
+    }
+    const $grafica = document.querySelector("#Grafica");
+    // Las etiquetas son las que van en el eje X. 
+    const etiquetas = ["Binance Coin", "BitCoin","Etherium","USD Coin","Tether"]
+    // Podemos tener varios conjuntos de datos. Comencemos con uno
+    const datosVentas2020 = {
+        label: "Cotización por Dia",
+        data: [C1,C2,C3,C4,C5], // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
         backgroundColor: 'rgba(54, 162, 235, 0.2)', // Color de fondo
         borderColor: 'rgba(54, 162, 235, 1)', // Color del borde
         borderWidth: 1,// Ancho del borde
