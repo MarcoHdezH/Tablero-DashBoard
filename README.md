@@ -3,7 +3,8 @@
 Aplicación que realiza una conexión a un API y presenta datos en una interfaz.
 
 *Novedades:*
-* Grafico con Chart.js Añadido
+* Grafico con Chart.js Añadido.
+* Nuevas Columnas añadidas.
 
 API Utilizada: https://min-api.cryptocompare.com/documentation
 
