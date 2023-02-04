@@ -135,6 +135,23 @@ p.precio{
     }
 }
 
+.canvas{
+    padding:3rem;
+    margin: 2rem;
+}
+
+.canvas canvas{
+    width: 10rem;
+    height: 12rem;
+}
+
+@media (min-width: 768px) {
+    .canvas{
+        padding: 5rem;
+        margin: 3rem;
+    }
+}
+
 .footer{
     padding: 3rem;
     text-align: center;

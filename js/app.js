@@ -5,13 +5,14 @@ const criptomonedasSelect = document.querySelector('#criptomonedas');
 const monedaSelect = document.querySelector('#moneda');
 const formulario = document.querySelector('#formulario');
 const resultado = document.querySelector('#resultado');
+const grafica = document.querySelector('#canvas');
 const objBusqueda = {
     moneda: '',
     criptomoneda: ''
 };
 
 // Promises
-const obtenerCriptomonedas = criptomonedas => new Promise( resolve => {
+const obtenerCriptomonedas = criptomonedas => new Promise(resolve => {
     resolve(criptomonedas);
 });
 
@@ -46,7 +47,7 @@ async function consultarCriptomonedas() {
 
 // llena el select 
 function selectCriptomonedas(criptomonedas) {
-    criptomonedas.forEach( cripto => {
+    criptomonedas.forEach(cripto => {
         const { FullName, Name } = cripto.CoinInfo;
         const option = document.createElement('option');
         option.value = Name;
@@ -56,7 +57,7 @@ function selectCriptomonedas(criptomonedas) {
     });
 }
 
-function leerValor(e)  {
+function leerValor(e) {
     objBusqueda[e.target.name] = e.target.value;
 }
 
@@ -64,8 +65,8 @@ function leerValor(e)  {
 function submitFormulario(e) {
     e.preventDefault();
     // Extraer los valores
-    const { moneda, criptomoneda} = objBusqueda;
-    if(moneda === '' || criptomoneda === '') {
+    const { moneda, criptomoneda } = objBusqueda;
+    if (moneda === '' || criptomoneda === '') {
         mostrarAlerta('Ambos campos son obligatorios');
         return;
     }
@@ -80,22 +81,22 @@ function mostrarAlerta(mensaje) {
     // Mensaje de error
     divMensaje.textContent = mensaje;
     // Insertar en el DOM
-   formulario.appendChild(divMensaje);
+    formulario.appendChild(divMensaje);
     // Quitar el alert despues de 1 segundo
-    setTimeout( () => {
+    setTimeout(() => {
         divMensaje.remove();
     }, 1000);
 }
 
 //Consultar API
 function consultarAPI() {
-    const { moneda, criptomoneda} = objBusqueda;
+    const { moneda, criptomoneda } = objBusqueda;
 
     const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${criptomoneda}&tsyms=${moneda}`;
 
     mostrarSpinner();
 
-    fetch(url)  
+    fetch(url)
         .then(respuesta => respuesta.json())
         .then(cotizacion => {
             mostrarCotizacionHTML(cotizacion.DISPLAY[criptomoneda][moneda]);
@@ -106,10 +107,31 @@ function consultarAPI() {
 function mostrarCotizacionHTML(cotizacion) {
     limpiarHTML();
     console.log(cotizacion);
-    const  { PRICE, HIGHDAY, LOWDAY, CHANGEPCT24HOUR, LASTUPDATE } = cotizacion;
+    const { PRICE, HIGHDAY, LOWDAY, CHANGEPCT24HOUR, LASTUPDATE } = cotizacion;
+
+    let lowP=LOWDAY;
+    let highP=HIGHDAY;
+
+    array1=[];
+    array1=lowP.split(" ");
+    lowP=array1[1];
+    array1=null;
+    array1=lowP.split(",");
+    lowP=array1[0]+array1[1];
+    lowP=parseFloat(lowP);
+
+    array1=null;
+    array1=highP.split(" ");
+    highP=array1[1];
+    array1=null;
+    array1=highP.split(",");
+    highP=array1[0]+array1[1];
+    highP=parseFloat(highP);
 
     const precio = document.createElement('p');
+
     precio.classList.add('precio');
+
     precio.innerHTML = `El Precio es: <span> ${PRICE} </span>`;
 
     const precioAlto = document.createElement('p');
@@ -130,7 +152,17 @@ function mostrarCotizacionHTML(cotizacion) {
     resultado.appendChild(ultimasHoras);
     resultado.appendChild(ultimaActualizacion);
 
+    grafica.classList.add('canvas');
+
+    const canvas = document.createElement('canvas');
+
+    canvas.setAttribute('id', "Grafica");
+
+    grafica.appendChild(canvas);
+
     formulario.appendChild(resultado);
+
+    mostrarGrafica(lowP,highP);
 }
 
 //Muestra la Animacion de Carga
@@ -150,7 +182,45 @@ function mostrarSpinner() {
 
 //Se encarga de Limpiar el HTML para diferentes Consultas
 function limpiarHTML() {
-    while(resultado.firstChild) {
+    while (resultado.firstChild) {
         resultado.removeChild(resultado.firstChild);
     }
+
+    while (grafica.firstChild) {
+        grafica.removeChild(grafica.firstChild);
+    }
+}
+
+function mostrarGrafica(lowP,highP) {
+    const $grafica = document.querySelector("#Grafica");
+    // Las etiquetas son las que van en el eje X. 
+    const etiquetas = ["Precio Más Bajo", "Precio Más Alto"]
+    // Podemos tener varios conjuntos de datos. Comencemos con uno
+    const datosVentas2020 = {
+        label: "Cotización por Dia",
+        data: [lowP,highP], // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
+        backgroundColor: 'rgba(54, 162, 235, 0.2)', // Color de fondo
+        borderColor: 'rgba(54, 162, 235, 1)', // Color del borde
+        borderWidth: 1,// Ancho del borde
+    };
+    new Chart($grafica, {
+        type: 'bar',// Tipo de gráfica
+        data: {
+            labels: etiquetas,
+            backgroundColor:'white',
+            datasets: [
+                datosVentas2020,
+                // Aquí más datos...
+            ]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }],
+            },
+        }
+    });
 }
