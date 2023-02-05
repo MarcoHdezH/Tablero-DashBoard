@@ -1,6 +1,4 @@
-
 // Definicion de Constantes/Variables
-
 const criptomonedasSelect = document.querySelector('#criptomonedas');
 const monedaSelect = document.querySelector('#moneda');
 const formulario = document.querySelector('#formulario');
@@ -28,7 +26,7 @@ async function consultarCriptomonedas() {
 
     //limit=5; Numero de CrytoMonedas Disponibles
 
-    const url = 'https://min-api.cryptocompare.com/data/top/mktcapfull?limit=5&tsym=USD';
+    const url = 'https://min-api.cryptocompare.com/data/top/mktcapfull?limit=3&tsym=USD';
     // NUEVO: 
     try {
         const respuesta = await fetch(url);
@@ -130,7 +128,7 @@ function mostrarCotizacionHTML(cotizacion) {
     highP=array1[0]+array1[1];
     highP=parseFloat(highP);*/
 
-    fetch(`https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH,USDT,BNB,USDC&tsyms=${Moneda}`)
+    fetch(`https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH,USDT&tsyms=${Moneda}`)
     // Exito
     .then(response => response.json())
     .then(comparativa => {
@@ -237,67 +235,52 @@ function limpiarHTML() {
 
 function mostrarGrafica(comparativa) {
     console.log(typeof comparativa);
-
-    const{BNB,BTC,ETH,USDC,USDT}=comparativa;
+    const{BTC,ETH,USDT}=comparativa;
     let C1,C2,C3,C4,C5;
 
     console.log(comparativa);
     if(Moneda=='USD'){
-        C1 = BNB.USD;
-        C2 = BTC.USD;
-        C3 = ETH.USD;
-        C4 = USDC.USD;
-        C5 = USDT.USD;
+        C1 = BTC.USD;
+        C2 = ETH.USD;
+        C3 = USDT.USD;
     }
     if(Moneda=='MXN'){
-        C1 = BNB.MXN;
-        C2 = BTC.MXN;
-        C3 = ETH.MXN;
-        C4 = USDC.MXN;
-        C5 = USDT.MXN;
+        C1 = BTC.MXN;
+        C2 = ETH.MXN;
+        C3 = USDT.MXN;
     }
     if(Moneda=='COP'){
-        C1 = BNB.COP;
-        C2 = BTC.COP;
-        C3 = ETH.COP;
-        C4 = USDC.COP;
-        C5 = USDT.COP;
+        C1 = BTC.COP;
+        C2 = ETH.COP;
+        C3 = USDT.COP;
     }
     if(Moneda=='JPY'){
-        C1 = BNB.JPY;
-        C2 = BTC.JPY;
-        C3 = ETH.JPY;
-        C4 = USDC.JPY;
-        C5 = USDT.JPY;
+        C1 = BTC.JPY;
+        C2 = ETH.JPY;
+        C3 = USDT.JPY;
     }
     if(Moneda=='VES'){
-        C1 = BNB.VES;
-        C2 = BTC.VES;
-        C3 = ETH.VES;
-        C4 = USDC.VES;
-        C5 = USDT.VES;
+        C1 = BTC.VES;
+        C2 = ETH.VES;
+        C3 = USDT.VES;
     }
     if(Moneda=='EUR'){
-        C1 = BNB.EUR;
-        C2 = BTC.EUR;
-        C3 = ETH.EUR;
-        C4 = USDC.EUR;
-        C5 = USDT.EUR;
+        C1 = BTC.EUR;
+        C2 = ETH.EUR;
+        C3 = USDT.EUR;
     }
     if(Moneda=='GPB'){
-        C1 = BNB.GPB;
-        C2 = BTC.GPB;
-        C3 = ETH.GPB;
-        C4 = USDC.GPB;
-        C5 = USDT.GPB;
+        C1 = BTC.GPB;
+        C2 = ETH.GPB;
+        C3 = USDT.GPB;
     }
     const $grafica = document.querySelector("#Grafica");
     // Las etiquetas son las que van en el eje X. 
-    const etiquetas = ["Binance Coin", "BitCoin","Etherium","USD Coin","Tether"]
+    const etiquetas = ["BitCoin","Etherium","Tether"]
     // Podemos tener varios conjuntos de datos. Comencemos con uno
     const datosVentas2020 = {
         label: "Cotización por Dia",
-        data: [C1,C2,C3,C4,C5], // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
+        data: [C1,C2,C3], // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
         backgroundColor: 'rgba(54, 162, 235, 0.2)', // Color de fondo
         borderColor: 'rgba(54, 162, 235, 1)', // Color del borde
         borderWidth: 1,// Ancho del borde
